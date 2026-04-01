@@ -77,6 +77,61 @@ df |>
   adorn_pct_formatting() # agregar porcentajes 
 
 
-#📝 TODO [1]: Automatizar el proceso con map para que tome la variables de cruce
+# Automatizar el procesamiento -------------------------------------------------
+
+# Este proceso podemos automatizarlo de creando una función e iterando. 
+
+# Paso 1: creamos la función crruzar_tabla
+
+cruzar_tabla <- function(data, var_i, var_c) {
+  data |>
+    group_by(.data[[var_c]], .data[[var_i]]) |>
+    summarise(n = n_distinct(id), .groups = "drop") |>
+    group_by(.data[[var_c]]) |>
+    mutate(percent = round(n / sum(n) * 100, 1)) |>
+    select(-n) |>
+    pivot_wider(
+      names_from = all_of(var_c),
+      values_from = percent
+    )
+}
 
 
+
+# Paso 2: arnmamos vectores con nuestras variables de interes y de cruce
+vars_interes <- c("p10_r", "p13_r")
+vars_cruce   <- c("genero_r", "edad_r")
+
+# Paso 3: guardamos la lista de tablas en el objeto resultados
+resultados <- list()
+
+
+# Paso 4: iteramos creando un loop
+
+for (v1 in vars_interes) {
+  for (v2 in vars_cruce) {
+    
+    nombre <- paste(v1, "por", v2)
+    
+    resultados[[nombre]] <- cruzar_tabla(df, v1, v2)
+  }
+}
+
+
+# Paso 5: veo los nombres de una tabla...
+names(resultados)
+
+## para cada cada nombre de las tablas listadas en resultados imprimimos su titulo y los resultados en cuestion 
+for (nombre in names(resultados)) {
+  print(nombre)
+  print(resultados[[nombre]])
+}
+
+# o miro el resultado de una tabla especifica
+resultados[["p10_r por genero_r"]]
+
+# o me la guardo en el GE para usarla despues en un grafico o lo que sea
+tabla_1<-resultados[["p10_r por genero_r"]]
+
+
+tabla_1
