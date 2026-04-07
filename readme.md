@@ -46,7 +46,7 @@ Trabajá siempre dentro del proyecto (.Rproj)
 No modifiques archivos dentro de input/ (son datos originales)
 Usá nombres claros para commits (no “cambios varios” 😄)
 
-Si algo no funciona git status
+Si algo no funciona git status.
 
 
 
