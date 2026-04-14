@@ -49,12 +49,15 @@ df <-readRDS("input/base_2024_final_anoni1 (3).rds") |>
 df |> 
   group_by(p10_r) |> 
   summarise(n = n_distinct(id)) |> # recuento de casos
-  mutate(percent = paste0(round(n/sum(n)*100,1),"%")) # agergar porcentajes
+  #mutate(percent = paste0(round(n/sum(n)*100,1),"%")) # agergar porcentajes
+  mutate(percent = paste0(round(n/sum(n)*100),"%"))
 
 # b) la función tably() del paquete janitor 
 df |> 
   tabyl(p10_r) |> # variable que analizo
   adorn_pct_formatting() # agregar porcentajes 
+
+rm(colores)
 
 
 # Tambien podemos hacer frecuencias cruzadas
@@ -67,7 +70,7 @@ df |>
   select(-n) |> # saco el n para que quede tabla solo con porcentajes
   pivot_wider(
     names_from = genero_r,
-    values_from = c(percent)
+    values_from = percent
     ) # pivoteamos para facilitar la lectura
 
 # b) con janitor 
