@@ -45,7 +45,8 @@ df <- df |>
 # Paso 3: ahora usando tabyl() vamos a explorar algunas tablas de contingencia simples
 # y vamos a responder algunas preguntas de cada eje
 
-## Eje sociodemográfico:
+## Dimension 1 sociodemográfico:
+# edad_r a p12 (nivel educativo de los padres)
 
 # ¿Que edad tienen cada segmento?
 df |> 
@@ -59,6 +60,49 @@ df |>
   adorn_percentages("col") |> 
   adorn_pct_formatting(digits = 0) |> 
   gt()
+
+# ¿Tienen hijos?
+
+
+df |> 
+  tabyl(p06,segmentos) |> 
+  adorn_totals("col") |> 
+  adorn_percentages("col") |> 
+  adorn_totals("row") |> 
+  adorn_pct_formatting(digits = 0) |> 
+  rename(tiene_hijos=p06) |> 
+  gt() |> 
+  gt::tab_header(title = "Tiene hijos según segmento de estudio")
+  
+
+# Situación de convivencia. 
+
+df |> 
+  tabyl(p08_r,segmentos) |> 
+  adorn_totals("col") |> 
+  adorn_percentages("col") |> 
+  adorn_totals("row") |> 
+  adorn_pct_formatting(digits = 0) |> 
+  rename(situacion_convivencia=p08_r) |> 
+  gt() |> 
+  gt::tab_header(title = "Situación de convivencia según segmento de estudio")
+
+# Tienen hijos segun convivencia
+df |> 
+  filter(p06 == "1- Sí") |> 
+  tabyl(p08_r,genero_r) |> 
+  adorn_totals()
+
+# Conclusion horrible
+
+# Solo el 20% (20) de los estudiantes sociología tienen hijos. 
+# Este porcentaje cae al 6% entre los estudiantes a término.
+# La mitad de los estuciantes a término (53% - XX), coniven con su familia de origen y 
+# tienen entre 21 y 25 años.
+# Los estudiantes demorados tienen una mayor disperción de edad 32%....ç
+# asimoismo el 34% posee hijos. 12 de ellos viven con sus hijos esta situación crece entre
+# las mujeres...
+
 
 
 # ¿Laburan?
@@ -93,7 +137,6 @@ df |>
   adorn_percentages("col") |> 
   adorn_pct_formatting(digits = 0) |> 
   gt()
-
 
 
 
