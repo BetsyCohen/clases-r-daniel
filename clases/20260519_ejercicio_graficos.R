@@ -1,5 +1,11 @@
 # Ejercicio de graficos con GGPLOT # 
 
+# Otros recursos:
+
+# https://r-graph-gallery.com/
+
+
+
 ## librerias -------------------------------------------------------------
 
 library(tidyverse) # universo de librerías con filosofía tidy
@@ -185,14 +191,17 @@ tabla_traba |>
 # Realizá un boxplot de edad según segmento.
 # colorear por segmento y probar usar coord_flip().
 
-
+df |> # capa de la base
+  ggplot(aes(x = segmentos, y = edad, fill = segmentos))+ # capa del mapeo
+  geom_boxplot()+ # capa de la geometria
+  geom_jitter(color="black", size=0.4, alpha=0.9) + #capa de geometria de punitos
+  coord_flip() # capa cambiar coordnada de ejes
+  
 
 
 ## Ejercicio 4 — Facetado “¿hay diferencias etarias por género?” ---------------
 
 # Construí un gráfico facetado por género que permita observar la distribución etaria según segmento.
-
-
 
 
 
